@@ -2,7 +2,7 @@
 
 Dalam Flutter, semua tampilan dibangun dari widget. Widget dapat berupa komponen visual (Text, Icon, AppBar, Scaffold) atau struktur logis yang mengatur widget lain (Column,Row, MaterialApp). Widget-widget tersebut disusun dalam bentuk pohon (Widget Treee). Di mana, Parent (induk) adalah widget yang membungkus widget lain. Sedangkan Child (anak) adalah widget yang dutempatkan di dalam widget lain. 
 
-Dalam Kode saya, Sacffold adalah induk dari AppBar dan Body. Di dalam Body, Column menjadi induk dari Text dan Icon. Jadi, struktur widget tree akan menentukan hierarki tampilan dan perilaku UI.
+Dalam Kode saya, Scaffold adalah induk dari AppBar dan Body. Di dalam Body, Column menjadi induk dari Text dan Icon. Jadi, struktur widget tree akan menentukan hierarki tampilan dan perilaku UI.
 
 
 2. Sebutkan semua widget yang kamu gunakan dalam proyek ini dan jelaskan fungsinya.
