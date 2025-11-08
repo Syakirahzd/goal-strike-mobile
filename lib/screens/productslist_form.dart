@@ -93,6 +93,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
                         ),
                       ),
                       keyboardType: TextInputType.number,
+                      
                       onChanged: (String? value) {
                         setState(() {
                           _price = int.tryParse(value ?? '') ?? 0;
