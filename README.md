@@ -1,32 +1,30 @@
-1. Jelaskan apa itu widget tree pada Flutter dan bagaimana hubungan parent-child (induk-anak) bekerja antar widget.
+1. Jelaskan perbedaan antara Navigator.push() dan Navigator.pushReplacement() pada Flutter. Dalam kasus apa sebaiknya masing-masing digunakan pada aplikasi Football Shop kamu?
 
-Dalam Flutter, semua tampilan dibangun dari widget. Widget dapat berupa komponen visual (Text, Icon, AppBar, Scaffold) atau struktur logis yang mengatur widget lain (Column,Row, MaterialApp). Widget-widget tersebut disusun dalam bentuk pohon (Widget Treee). Di mana, Parent (induk) adalah widget yang membungkus widget lain. Sedangkan Child (anak) adalah widget yang dutempatkan di dalam widget lain. 
-
-Dalam Kode saya, Scaffold adalah induk dari AppBar dan Body. Di dalam Body, Column menjadi induk dari Text dan Icon. Jadi, struktur widget tree akan menentukan hierarki tampilan dan perilaku UI.
+Navigator.push() digunakan untuk menambahkan halaman baru di atas halaman yang sedang aktif, sehingga pengguna bisa kembali ke halaman sebelumnya dengan menekan tombol back. Sementara itu, Navigator.pushReplacement() akan mengganti halaman saat ini dengan halaman baru, sehingga pengguna tidak bisa kembali ke halaman sebelumnya. Dalam aplikasi Football Shop, Navigator.push() cocok digunakan saat pengguna ingin membuka halaman detail produk dari daftar produk (karena pengguna mungkin ingin kembali melihat daftar sebelumnya). Sedangkan Navigator.pushReplacement() lebih cocok digunakan setelah pengguna melakukan aksi tertentu yang bersifat final, seperti setelah login berhasil atau setelah menyimpan data produk baru, agar pengguna tidak bisa kembali ke halaman form yang lama. Saya menggunakan menggunakan pushReplacement() agar halaman saat ini digantikan oleh halaman tujuan (misalnya MyHomePage() atau ProductFormPage()). Menurut saya metode ini tepat digunakan untuk menu navigasi utama seperti Drawer, karena ketika pengguna berpindah antarhalaman utama (misalnya dari “Home” ke “Create Product”), mereka tidak perlu kembali ke halaman sebelumnya.
 
 
-2. Sebutkan semua widget yang kamu gunakan dalam proyek ini dan jelaskan fungsinya.
+2. Bagaimana kamu memanfaatkan hierarchy widget seperti Scaffold, AppBar, dan Drawer untuk membangun struktur halaman yang konsisten di seluruh aplikasi?
 
-Mulau dari MaterialApp yang berfungsi sebagai kerangka utama aplikasi berbasis Material Design dan menyediakan pengaturan tema, navigasi, serta struktur dasar. Scaffold menyediakan struktur halaman utama seperti AppBar dan Body. AppBar digunakan untuk menampilkan bagian atas halaman dengan judul aplikasi. Text menampilkan tulisan pada layar. Row dan Column mengatur posisi widget secara horizontal dan vertikal. Card digunakan untuk menampilkan informasi dalam bentuk kartu dengan efek bayangan. Container membantu mengatur ukuran, padding, dan warna latar. Padding menambahkan jarak di sekitar widget. 
-
-Selanjutnya, GridView.count menampilkan daftar widget dalam bentuk grid. Icon menampilkan ikon, sedangkan Material dan InkWell menambahkan efek visual dan interaksi sentuhan. Selain itu, SingleChildScrollView memungkinkan halaman untuk di-scroll, SizedBox memberikan jarak antar elemen, SnackBar menampilkan pesan singkat, ScaffoldMessenger mengelola tampilan SnackBar, dan MediaQuery digunakan untuk mendapatkan ukuran layar agar layout lebih responsif.
+Ketiga widget ini membantu menjaga struktur dan tampilan halaman agar konsisten di seluruh aplikasi. Scaffold berfungsi sebagai kerangka utama setiap halaman, yang menyediakan area untuk elemen-elemen penting seperti app bar, drawer, dan body. AppBar digunakan untuk menampilkan judul halaman atau tombol navigasi di bagian atas, sementara Drawer berfungsi sebagai menu samping yang memudahkan pengguna berpindah antarhalaman dengan tampilan yang sama di setiap halaman. Dengan memanfaatkan ketiganya, setiap halaman dalam aplikasi Goal Strike seperti halaman produk, form tambah produk, dan halaman utama akan memiliki tata letak dan navigasi yang seragam, membuat pengalaman pengguna terasa lebih rapi dan konsisten.
 
 
-3. Apa fungsi dari widget MaterialApp? Jelaskan mengapa widget ini sering digunakan sebagai widget root.
+3.  Dalam konteks desain antarmuka, apa kelebihan menggunakan layout widget seperti Padding, SingleChildScrollView, dan ListView saat menampilkan elemen-elemen form? Berikan contoh penggunaannya dari aplikasi kamu.
 
-Widget MaterialApp memiliki peran penting karena menjadi wadah utama (root widget) dari aplikasi berbasis Material Design. MaterialApp mengatur tema global aplikasi melalui ThemeData, menyediakan sistem navigasi antar halaman, serta mengatur elemen-elemen seperti bahasa dan tampilan keseluruhan. Tanpa MaterialApp, banyak widget Flutter seperti Scaffold atau AppBar tidak dapat berfungsi dengan benar karena mereka bergantung pada konteks Material Design yang disediakan olehnya. Oleh karena itu, widget ini hampir selalu digunakan sebagai root di setiap aplikasi Flutter.
-
-
-4. Jelaskan perbedaan antara StatelessWidget dan StatefulWidget. Kapan kamu memilih salah satunya?
-
-Perbedaan antara StatelessWidget dan StatefulWidget terletak pada kemampuan keduanya dalam menangani perubahan data. StatelessWidget bersifat statis atau tidak memiliki state yang bisa berubah, sehingga cocok digunakan untuk tampilan yang tidak berubah-ubah seperti teks, ikon, atau tombol sederhana. Sementara itu, StatefulWidget memiliki state yang dapat diperbarui selama aplikasi berjalan, sehingga cocok digunakan untuk tampilan yang dinamis seperti form, animasi, atau penghitung angka. Dalam proyek ini, semua widget termasuk MyApp, MyHomePage, InfoCard, dan ItemCard merupakan StatelessWidget karena tampilannya tidak berubah setelah dibangun.
+Ketiga widget ini sangat penting dalam membangun tampilan form yang rapi dan responsif. Padding digunakan untuk memberikan jarak antar elemen agar tidak terlalu menempel dan terlihat lebih nyaman di mata. SingleChildScrollView berguna agar seluruh isi form bisa di-scroll saat tampilan melebihi ukuran layar, sehingga pengguna tetap bisa mengisi semua data tanpa kesulitan. ListView digunakan untuk menampilkan daftar elemen yang bisa digulir, seperti daftar produk di aplikasi Goal Strike. Sebagai contoh, di halaman form tambah produk (create product), saya menggunakan Padding di setiap TextFormField agar tampilan lebih rapi, dan membungkus seluruh form dengan SingleChildScrollView supaya form tetap bisa diakses meskipun panjang.
 
 
-5. Apa itu BuildContext dan mengapa penting di Flutter? Bagaimana penggunaannya di metode build?
+4. Bagaimana kamu menyesuaikan warna tema agar aplikasi Football Shop memiliki identitas visual yang konsisten dengan brand toko?
 
-BuildContext adalah objek yang merepresentasikan posisi suatu widget di dalam widget tree. BuildContext digunakan untuk mengakses informasi dari parent widget, seperti tema aplikasi (Theme.of(context)), ukuran layar (MediaQuery.of(context)), atau untuk menampilkan pesan melalui ScaffoldMessenger.of(context). BuildContext sangat penting dalam metode build() karena memungkinkan widget mengetahui lingkungannya dan berinteraksi dengan widget lain di dalam tree.
+Dalam aplikasi Goal Strike, penyesuaian warna tema dilakukan agar seluruh tampilan aplikasi memiliki identitas visual yang konsisten dengan brand toko. Tema warna utama yang digunakan adalah biru dan biru terang (cyan), karena kombinasi warna tersebut mencerminkan semangat, profesionalitas, dan energi yang identik dengan dunia olahraga, khususnya sepak bola. Pengaturan tema ini diterapkan secara global di file main.dart menggunakan properti ThemeData, dengan konfigurasi colorScheme sebagai berikut:
+
+```dart
+colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue)
+  .copyWith(secondary: const Color.fromARGB(255, 0, 140, 255)),
+```
+
+Kode ini memastikan bahwa warna biru digunakan sebagai warna utama (primary color) dan biru muda sebagai warna sekunder (secondary color), sehingga seluruh komponen seperti AppBar, tombol, dan ikon menggunakan warna yang senada. Selain itu, komponen seperti AppBar dan tombol di halaman Form Create Product juga menerapkan secondaryColor agar konsisten dengan tema utama.
+
+Untuk menjaga keselarasan, warna pada LeftDrawer juga disesuaikan dengan tema aplikasi menggunakan Theme.of(context).colorScheme.primary dan colorScheme.secondary, menggantikan warna yang sebelumnya ditulis secara manual (Colors.blue). Dengan penerapan ini, seluruh bagian aplikasi mulai dari navigasi, form, hingga elemen interaktif menampilkan warna yang seragam dan harmonis (khusus untuk warna tombol biru, hijau, dan merah masih mengikuti perintah di tugas sebelumnya karena belum ada perinta untuk mengganti warna tombol tersebut).
 
 
-6. Jelaskan konsep "hot reload" di Flutter dan bagaimana bedanya dengan "hot restart".
-
-Konsep hot reload di Flutter memungkinkan pengembang memperbarui tampilan aplikasi secara cepat tanpa kehilangan state yang sedang berjalan. Misalnya, jika warna atau teks diubah, hasilnya akan langsung terlihat tanpa perlu menjalankan ulang aplikasi. Sebaliknya, hot restart akan memulai ulang seluruh aplikasi dari awal dan menghapus semua state yang tersimpan, seperti mengatur ulang nilai variabel atau tampilan awal. Dengan kata lain, hot reload memperbarui kode di aplikasi yang sedang berjalan, sedangkan hot restart membangun ulang aplikasi dari nol.
+Terima kasih.
