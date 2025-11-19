@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:goal_strike/screens/menu.dart';
+import 'package:goal_strike/screens/products_entry_list.dart';
 import 'package:goal_strike/screens/productslist_form.dart';
+import 'package:goal_strike/screens/login.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:provider/provider.dart';
 
 class ItemCard extends StatelessWidget {
   final ItemHomepage item;
@@ -9,11 +13,12 @@ class ItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final request = context.watch<CookieRequest>();
     return Material(
       color: item.color,
       borderRadius: BorderRadius.circular(12),
       child: InkWell(
-        onTap: () {
+        onTap: () async{
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(
@@ -28,6 +33,25 @@ class ItemCard extends StatelessWidget {
                 ),
               );  
             }
+            else if (item.name == "All Product") {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ProductEntryListPage()
+                  ),
+              );
+          }
+          else if (item.name == "My Product") {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const ProductEntryListPage(
+                filterUserProductsOnly: true,
+              ),
+            ),
+          );
+        }
+                  
         },
         child: Container(
           padding: const EdgeInsets.all(8),
