@@ -1,30 +1,32 @@
-1. Jelaskan perbedaan antara Navigator.push() dan Navigator.pushReplacement() pada Flutter. Dalam kasus apa sebaiknya masing-masing digunakan pada aplikasi Football Shop kamu?
+1. Jelaskan mengapa kita perlu membuat model Dart saat mengambil/mengirim data JSON? Apa konsekuensinya jika langsung memetakan Map<String, dynamic> tanpa model (terkait validasi tipe, null-safety, maintainability)?
 
-Navigator.push() digunakan untuk menambahkan halaman baru di atas halaman yang sedang aktif, sehingga pengguna bisa kembali ke halaman sebelumnya dengan menekan tombol back. Sementara itu, Navigator.pushReplacement() akan mengganti halaman saat ini dengan halaman baru, sehingga pengguna tidak bisa kembali ke halaman sebelumnya. Dalam aplikasi Football Shop, Navigator.push() cocok digunakan saat pengguna ingin membuka halaman detail produk dari daftar produk (karena pengguna mungkin ingin kembali melihat daftar sebelumnya). Sedangkan Navigator.pushReplacement() lebih cocok digunakan setelah pengguna melakukan aksi tertentu yang bersifat final, seperti setelah login berhasil atau setelah menyimpan data produk baru, agar pengguna tidak bisa kembali ke halaman form yang lama. Saya menggunakan menggunakan pushReplacement() agar halaman saat ini digantikan oleh halaman tujuan (misalnya MyHomePage() atau ProductFormPage()). Menurut saya metode ini tepat digunakan untuk menu navigasi utama seperti Drawer, karena ketika pengguna berpindah antarhalaman utama (misalnya dari “Home” ke “Create Product”), mereka tidak perlu kembali ke halaman sebelumnya.
-
-
-2. Bagaimana kamu memanfaatkan hierarchy widget seperti Scaffold, AppBar, dan Drawer untuk membangun struktur halaman yang konsisten di seluruh aplikasi?
-
-Ketiga widget ini membantu menjaga struktur dan tampilan halaman agar konsisten di seluruh aplikasi. Scaffold berfungsi sebagai kerangka utama setiap halaman, yang menyediakan area untuk elemen-elemen penting seperti app bar, drawer, dan body. AppBar digunakan untuk menampilkan judul halaman atau tombol navigasi di bagian atas, sementara Drawer berfungsi sebagai menu samping yang memudahkan pengguna berpindah antarhalaman dengan tampilan yang sama di setiap halaman. Dengan memanfaatkan ketiganya, setiap halaman dalam aplikasi Goal Strike seperti halaman produk, form tambah produk, dan halaman utama akan memiliki tata letak dan navigasi yang seragam, membuat pengalaman pengguna terasa lebih rapi dan konsisten.
+Dalam pengambilan ataupun pengiriman data JSON, pembuatan model Dart sangat penting karena Dart merupakan bahasa yang strongly typed, sehingga setiap data perlu memiliki struktur dan tipe yang jelas. Dengan menggunakan model, proses konversi JSON menjadi objek menjadi lebih aman, terorganisir, dan mudah dikelola. Tanpa model dan langsung menggunakan Map<String, dynamic>, aplikasi akan lebih rentan terhadap berbagai masalah seperti kesalahan tipe data, nilai null yang tidak terduga, serta potensi typo pada key JSON yang dapat menyebabkan error saat runtime. Selain itu, kode juga akan menjadi lebih sulit dipelihara dan tidak terstruktur. Pada implementasi saya, model seperti ProductsEntry memastikan bahwa setiap data dari Django memiliki struktur yang benar sehingga aman digunakan di seluruh bagian aplikasi.
 
 
-3.  Dalam konteks desain antarmuka, apa kelebihan menggunakan layout widget seperti Padding, SingleChildScrollView, dan ListView saat menampilkan elemen-elemen form? Berikan contoh penggunaannya dari aplikasi kamu.
-
-Ketiga widget ini sangat penting dalam membangun tampilan form yang rapi dan responsif. Padding digunakan untuk memberikan jarak antar elemen agar tidak terlalu menempel dan terlihat lebih nyaman di mata. SingleChildScrollView berguna agar seluruh isi form bisa di-scroll saat tampilan melebihi ukuran layar, sehingga pengguna tetap bisa mengisi semua data tanpa kesulitan. ListView digunakan untuk menampilkan daftar elemen yang bisa digulir, seperti daftar produk di aplikasi Goal Strike. Sebagai contoh, di halaman form tambah produk (create product), saya menggunakan Padding di setiap TextFormField agar tampilan lebih rapi, dan membungkus seluruh form dengan SingleChildScrollView supaya form tetap bisa diakses meskipun panjang.
-
-
-4. Bagaimana kamu menyesuaikan warna tema agar aplikasi Football Shop memiliki identitas visual yang konsisten dengan brand toko?
-
-Dalam aplikasi Goal Strike, penyesuaian warna tema dilakukan agar seluruh tampilan aplikasi memiliki identitas visual yang konsisten dengan brand toko. Tema warna utama yang digunakan adalah biru dan biru terang (cyan), karena kombinasi warna tersebut mencerminkan semangat, profesionalitas, dan energi yang identik dengan dunia olahraga, khususnya sepak bola. Pengaturan tema ini diterapkan secara global di file main.dart menggunakan properti ThemeData, dengan konfigurasi colorScheme sebagai berikut:
-
-```dart
-colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue)
-  .copyWith(secondary: const Color.fromARGB(255, 0, 140, 255)),
-```
-
-Kode ini memastikan bahwa warna biru digunakan sebagai warna utama (primary color) dan biru muda sebagai warna sekunder (secondary color), sehingga seluruh komponen seperti AppBar, tombol, dan ikon menggunakan warna yang senada. Selain itu, komponen seperti AppBar dan tombol di halaman Form Create Product juga menerapkan secondaryColor agar konsisten dengan tema utama.
-
-Untuk menjaga keselarasan, warna pada LeftDrawer juga disesuaikan dengan tema aplikasi menggunakan Theme.of(context).colorScheme.primary dan colorScheme.secondary, menggantikan warna yang sebelumnya ditulis secara manual (Colors.blue). Dengan penerapan ini, seluruh bagian aplikasi mulai dari navigasi, form, hingga elemen interaktif menampilkan warna yang seragam dan harmonis (khusus untuk warna tombol biru, hijau, dan merah masih mengikuti perintah di tugas sebelumnya karena belum ada perinta untuk mengganti warna tombol tersebut).
+2. Apa fungsi package http dan CookieRequest dalam tugas ini? Jelaskan perbedaan peran http vs CookieRequest.
+   
+Package http berfungsi sebagai alat komunikasi dasar antara Flutter dan server melalui protokol HTTP, namun tidak menyimpan cookie atau mengelola autentikasi. Di sisi lain, CookieRequest dari package pbp_django_auth memiliki peran khusus untuk menangani komunikasi dengan backend Django yang menggunakan session-based authentication. CookieRequest secara otomatis menyimpan dan mengirimkan cookie, termasuk session ID dan CSRF token, sehingga user yang telah login akan tetap dianggap login di setiap request. Karena aplikasi ini membutuhkan autentikasi untuk mengakses data tertentu, maka CookieRequest menjadi solusi yang lebih tepat dibandingkan http.
 
 
-Terima kasih.
+3. Jelaskan mengapa instance CookieRequest perlu untuk dibagikan ke semua komponen di aplikasi Flutter. 
+
+Instance CookieRequest wajib dibagikan ke seluruh komponen agar status autentikasi tetap konsisten di semua halaman. Ketika user melakukan login, session dan cookie disimpan dalam instance tersebut. Jika setiap halaman memiliki instance sendiri, maka status login akan hilang sehingga Django akan selalu menganggap user sebagai anonymous. Dengan menggunakan Provider untuk membagikan instance yang sama ke seluruh widget tree, aplikasi dapat mempertahankan autentikasi yang sama, menampilkan data khusus user, dan menjaga alur login agar tetap berjalan dengan benar. Pada kode saya, hal ini terlihat saat halaman produk mengambil request dari context.watch<CookieRequest>().
+
+
+4. Jelaskan konfigurasi konektivitas yang diperlukan agar Flutter dapat berkomunikasi dengan Django. Mengapa kita perlu menambahkan 10.0.2.2 pada ALLOWED_HOSTS, mengaktifkan CORS dan pengaturan SameSite/cookie, dan menambahkan izin akses internet di Android? Apa yang akan terjadi jika konfigurasi tersebut tidak dilakukan dengan benar?
+
+Agar Flutter dapat berkomunikasi dengan Django, diperlukan konfigurasi tertentu pada kedua sisi. Pertama, alamat 10.0.2.2 harus ditambahkan ke ALLOWED_HOSTS di Django karena Android emulator tidak dapat mengakses localhost secara langsung; alamat itu adalah jembatan khusus ke komputer host. Selain itu, Django harus mengaktifkan CORS agar mengizinkan permintaan dari aplikasi Flutter, serta mengatur cookie dengan SameSite=None dan mengizinkan pengiriman cookie lintas domain. Di sisi Android, permission internet juga harus ditambahkan pada AndroidManifest.xml, karena tanpa izin ini aplikasi Flutter tidak dapat melakukan request jaringan sama sekali. Jika salah satu konfigurasi ini tidak dilakukan dengan benar, maka permintaan dari Flutter akan ditolak, cookie tidak akan terkirim, data tidak dapat diambil, dan proses login akan gagal.
+
+
+5. Jelaskan mekanisme pengiriman data mulai dari input hingga dapat ditampilkan pada Flutter.
+
+Alur pengiriman data dimulai ketika pengguna mengisi form pada Flutter. Data tersebut kemudian dikirim ke Django dalam format JSON melalui metode post atau get milik CookieRequest. Django menerima data tersebut, memvalidasinya, dan menyimpannya ke dalam database. Setelah data berhasil disimpan, Flutter akan melakukan request untuk mengambil data terbaru menggunakan endpoint JSON dari Django. Data yang diterima berupa list map JSON, yang kemudian diubah menjadi objek model seperti ProductsEntry melalui factory fromJson(). Setelah diproses, data ditampilkan ke pengguna melalui widget seperti ListView.builder. Pada kode saya, mekanisme ini terlihat jelas dalam fungsi fetchProduct() dan FutureBuilder.
+
+
+6. Jelaskan mekanisme autentikasi dari login, register, hingga logout. Mulai dari input data akun pada Flutter ke Django hingga selesainya proses autentikasi oleh Django dan tampilnya menu pada Flutter.
+
+Proses autentikasi dimulai dari Flutter ketika pengguna mengisi form login atau register. Data ini dikirim ke Django melalui CookieRequest. Pada register, Django akan membuat akun baru dan mengembalikan respon yang menandakan keberhasilan registrasi. Pada login, Django memvalidasi kombinasi username dan password. Jika sesuai, Django membuat session baru dan mengirimkan cookie session kepada Flutter. CookieRequest menyimpan cookie ini sehingga Flutter dapat mengakses endpoint yang membutuhkan autentikasi. Logout dilakukan dengan mengirim request ke endpoint Django yang menghapus session user. Setelah logout berhasil, cookie pada Flutter dibersihkan sehingga user kembali dianggap tidak login. Alur ini memastikan bahwa pengguna hanya dapat mengakses data tertentu setelah autentikasi berhasil.
+
+7. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step! (bukan hanya sekadar mengikuti tutorial).
+
+Saya mengimplementasikan checklist dengan mengikuti alur kerja yang sistematis. Pertama, saya membuat model Dart berdasarkan struktur JSON dari Django untuk memastikan data dapat dipetakan dengan aman. Setelah itu, saya mengonfigurasi proyek Flutter agar menggunakan Provider untuk menyediakan satu instance CookieRequest ke seluruh aplikasi. Kemudian, saya membuat fungsi fetch dan UI untuk menampilkan list produk menggunakan FutureBuilder. Di Django, saya menambahkan endpoint JSON, mengaktifkan CORS, dan menambahkan 10.0.2.2 ke ALLOWED_HOSTS. Saya juga mengatur cookie dan CSRF agar kompatibel dengan Flutter. Untuk autentikasi, saya menghubungkan form login, register, dan logout di Flutter dengan endpoint Django menggunakan CookieRequest. Akhirnya, saya memastikan semua fitur berjalan dengan melakukan testing pada emulator dan memperbaiki setiap error yang muncul sampai seluruh alur data dan autentikasi berjalan lancar.
